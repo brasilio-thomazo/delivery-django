@@ -1,18 +1,19 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.tsx',
+    entry: './src/index.js',
+    devtool: 'eval-source-map',
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\.jsx?$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
             }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.jsx', '.js']
     },
     output: {
         filename: 'js/bundle.js',
