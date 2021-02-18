@@ -10,3 +10,6 @@ class Clients(models.Model):
     registred = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(null=True)
+
+    class Meta:
+        unique_together = ('name', 'phone')
