@@ -1,13 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const process = require('process');
+
+//console.log(process);
+console.log(process.env);
 
 
 module.exports = {
     entry: ['./src/index.js', './src/scss/index.scss'],
     devtool: 'source-map',
-    mode: process.env.production ? 'production' : 'development',
+    mode: process.env.NODE_ENV,
     module: {
         rules: [
             {
@@ -48,7 +52,7 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    {loader: process.env.production ? MiniCssExtractPlugin.loader : 'style-loader'},
+                    {loader: process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader'},
                     {loader: 'css-loader', options: {sourceMap: true}},
                     {loader: 'sass-loader', options: {sourceMap: true}}
                 ]
@@ -64,11 +68,11 @@ module.exports = {
         path: path.resolve(__dirname, 'gui/static')
     },
     optimization: {
-        minimize: true,
+        minimize: process.env.NODE_ENV === 'production',
     },
     plugins: [ //development production
         new webpack.DefinePlugin({"process.env": {NODE_ENV: JSON.stringify("development")}}),
-        new miniCssExtractPlugin({filename: 'css/[name].css'}),
+        new MiniCssExtractPlugin({filename: 'css/[name].css'}),
         new VueLoaderPlugin()
     ]
 }

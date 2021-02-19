@@ -1,9 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 const http = axios.create({
-    baseURL: '/api/',
+  baseURL: "/api/",
 });
 
+const options = {
+  headers: { "Content-type": "application/json" },
+};
 
 const clientReplace = (k, v) => {
   let value = v;
@@ -14,15 +17,30 @@ const clientReplace = (k, v) => {
 };
 
 export default {
-    getClients() {
-        return http.get("client/");
+  getClients() {
+    return http.get("client/");
+  },
+  postClient(client) {
+    let json = JSON.stringify(client, clientReplace);
+    return http.post("client/", json, options);
+  },
+  putClient(client) {},
+  getProduct() {},
+  postProduct(product) {},
+  product: {
+    getType() {
+      return http.get("product-type/");
     },
-    postClient(client) {
-        let json = JSON.stringify(client, clientReplace);
-        return http.post("client/", json, {
-            headers: {
-                'Content-type': 'application/json'
-            }
-        });
-    }
-}
+    postType(p_type) {
+      return http.post("product-type/", p_type, options);
+    },
+
+    getCategory() {
+      return http.get("product-category/");
+    },
+
+    postCategory(p_category) {
+      return http.post("product-category/", p_category, options);
+    },
+  },
+};
